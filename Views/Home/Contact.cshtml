@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Contact";
+}
+
+
+<div class="container" style="color:white; font-size:25px;">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="FeedPass">
+                <div class="form-group">
+                    <label>Enter User Name </label><br />
+                    <input type="text" name="feedName" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Enter Email </label><br />
+                    <input type="text" name="feedEmail" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Enter Contact </label><br />
+                    <input type="number" name="feedContact" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Enter Message </label><br />
+                    <input type="text" name="feedMsg" class="form-control" />
+                </div>
+
+
+                <input type="submit" class="btn btn-warning" value="Send Message" />
+            </form>
+        </div>
+
+
+    </div>
+
+</div>
+
+

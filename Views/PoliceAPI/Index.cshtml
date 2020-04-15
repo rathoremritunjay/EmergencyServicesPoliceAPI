@@ -1,0 +1,199 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Police Detail</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                            Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="Name" required="required" class="form-control col-md-7 col-xs-12" name="Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                            Location <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="Location" required="required" class="form-control col-md-7 col-xs-12" name="Location">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                            Contact <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="Contact" required="required" class="form-control col-md-7 col-xs-12" name="Contact">
+                        </div>
+                    </div>
+
+                    <div class="ln_solid"></div>
+                    <input type="hidden" id="id" name="id" />
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button type="submit" class="btn btn-success" id="btn1">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Police List</h2>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="table-responsive">
+                <table class="table jambo_table bulk_action" id="tab1">
+                    <tr class="headings" style="background-color:aqua">
+                        <th class="column-title" width="180px"># </th>
+                        <th class="column-title" width="380px">Name </th>
+                        <th class="column-title" width="180px">Location </th>
+                        <th class="column-title" width="180px">Contact </th>
+                        <th class="column-title no-link last" width="240px">
+                            <span class="nobr">Action</span>
+                        </th>
+                    </tr>
+
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function AddEditRecord(id, name, location, contact) {
+        $("#Name").val(name);
+        $("#Location").val(location);
+        $("#Contact").val(contact);
+        $("#id").val(id);
+    }
+
+    function UpdateRecord() {
+        var Name = $("#Name").val();
+        var Location = $("#Location").val();
+        var Contact = $("#Contact").val();
+        $.ajax({
+            type: "put",
+            contentType: "application/json;charset=utf-8",
+            url: "/api/PoliceEmergencies/" + $("#id").val(),
+            data: JSON.stringify({
+                id: $("#id").val(),
+                Name: $("#Name").val(),
+                Location: $("#Location").val(),
+                Contact: $("#Contact").val(),
+            }),
+
+            dataType: "JSON",
+
+            success: function (data) {
+                $("#tab1").find("tr:gt(0)").remove();
+                $.getJSON("/api/PoliceEmergencies/", function (data) {
+                    $("#tab1").css("display", "block");
+                    $.each(data, function (key, val) {
+                        $("<tr class='even pointer'><td width='180px'>" + val.id + "</td><td width='180px'>" + val.Name + "</td><td width='180px'>" + val.Location + "</td><td width='180px'>" + val.Contact + "</td><td width='240px'>" + "<button class='btn btn-warning btn-xs' onclick='AddEditRecord(" + val.id + ',"' + val.Name + '","' + val.Location + '","' + val.Contact + '"' + ");'" + ">Edit</button> <button class='btn btn-danger btn-xs' onclick='DeleteRecord(" + val.id + ");'" + ">Delete</button>" + "</td></tr>").appendTo($("#tab1"));
+
+                    })
+
+                })
+
+            }
+        });
+    }
+    //Delete
+    function DeleteRecord(id) {
+        $.ajax({
+
+            type: "DELETE",
+
+            contentType: "application/json;charset=utf-8",
+
+            url: "/api/PoliceEmergencies/" + id,
+
+            data: JSON.stringify({
+                id: id,
+            }),
+            dataType: "JSON",
+            success: function (data) {
+                $("#tab1").find("tr:gt(0)").remove();
+                $.getJSON("/api/PoliceEmergencies/", function (data) {
+                    $("#tab1").css("display", "block");
+                    $.each(data, function (key, val) {
+                        $("<tr class='even pointer'><td width='180px'>" + val.id + "</td><td width='180px'>" + val.Name + "</td><td width='180px'>" + val.Location + "</td><td width='180px'>" + val.Contact + "</td><td width='240px'>" + "<button class='btn btn-warning btn-xs' onclick='AddEditRecord(" + val.id + ',"' + val.Name + '","' + val.Location + '","' + val.Contact + '"' + ");'" + ">Edit</button> <button class='btn btn-danger btn-xs' onclick='DeleteRecord(" + val.id + ");'" + ">Delete</button>" + "</td></tr>").appendTo($("#tab1"));
+
+                    })
+
+                })
+            }
+        });
+    }
+    $(document).ready(function () {
+        $("#tab1").css("display", "none");
+        $.getJSON("/api/PoliceEmergencies/", function (data) {
+            $("#tab1").css("display", "block");
+            $.each(data, function (key, val) {
+                $("<tr class='even pointer'><td width='180px'>" + val.id + "</td><td width='180px'>" + val.Name + "</td><td width='180px'>" + val.Location + "</td><td width='180px'>" + val.Contact + "</td><td width='240px'>" + "<button class='btn btn-warning btn-xs' onclick='AddEditRecord(" + val.id + ',"' + val.Name + '","' + val.Location + '","' + val.Contact + '"' + ");'" + ">Edit</button> <button class='btn btn-danger btn-xs' onclick='DeleteRecord(" + val.id + ");'" + ">Delete</button>" + "</td></tr>").appendTo($("#tab1"));
+            });
+        })
+
+        //POST
+        $("#btn1").click(function () {
+            if ($("#id").val() > 0) {
+                UpdateRecord();
+            }
+            else {
+                var Name = $("#Name").val();
+                var Location = $("#Location").val();
+                var Contact = $("#Contact").val();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    url: "/api/PoliceEmergencies/",
+                    data: JSON.stringify({
+                        Name: $("#Name").val(),
+                        Location: $("#Location").val(),
+                        Contact: $("#Contact").val(),
+                    }),
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#id").val('');
+                        $("#tab1").find("tr:gt(0)").remove();
+                        $.getJSON("/api/PoliceEmergencies/", function (data) {
+                            $("#tab1").css("display", "block");
+                            $.each(data, function (key, val) {
+                                $("<tr class='even pointer'><td width='180px'>" + val.id + "</td><td width='180px'>" + val.Name + "</td><td width='180px'>" + val.Location + "</td><td width='180px'>" + val.Contact + "</td><td width='240px'>" + "<button class='btn btn-warning btn-xs' onclick='AddEditRecord(" + val.id + ',"' + val.Name + '","' + val.Location + '","' + val.Contact + '"' + ");'" + ">Edit</button> <button class='btn btn-danger btn-xs' onclick='DeleteRecord(" + val.id + ");'" + ">Delete</button>" + "</td></tr>").appendTo($("#tab1"));
+
+                            })
+
+                        })
+
+
+
+                    }
+                });
+            }
+
+        })
+    });
+
+</script>

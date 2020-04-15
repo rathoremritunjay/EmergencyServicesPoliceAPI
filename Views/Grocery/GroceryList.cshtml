@@ -1,0 +1,52 @@
+﻿@model IEnumerable<EmergencyServices.Models.GroceryEmergency>
+
+@{
+    ViewBag.Title = "GroceryList";
+}
+
+
+
+<p>
+    @Html.ActionLink("Add New Data ", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact)
+        </th>
+        <th>Edit </th>
+        <th>Delete </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contact)
+        </td>
+        <td>
+            <span class="btn btn-warning">@Html.ActionLink("Edit", "Edit", new { id = item.id }) </span></td>
+
+        <td>
+            
+            <span class="btn btn-warning"> @Html.ActionLink("Delete", "Delete", new { id = item.id })</span>
+        </td>
+    </tr>
+}
+
+</table>
+
+<br/>
+
+<a href="@Url.Action("Work","Admin")" class="btn btn-danger">Back to Dashboard </a>

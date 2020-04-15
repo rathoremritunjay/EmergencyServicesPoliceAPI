@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 style="color:white;"> 24 X 7 Help Line Number </h1>
+
+        </div>
+        <div class="col-md-4">
+            <img src="~/images/doctor.png" class="img-thumbnail" style="height:400px;width:400px;" /><br />
+                
+            <a href="@Url.Action("List","Doctor")" class="btn btn-danger"> Click Here to View </a>
+
+        </div>
+
+        <div class="col-md-4">
+            <img src="~/images/grocery.jpg" class="img-thumbnail" style="height:400px;width:400px;" /><br />
+            <a href="@Url.Action("List","Grocery")" class="btn btn-danger"> Click Here to View </a>
+
+        </div>
+        <div class="col-md-4">
+            <img src="~/images/police.jpg" class="img-thumbnail" style="height:400px;width:400px;" /><br />
+            <a href="@Url.Action("List","Police")" class="btn btn-danger"> Click Here to View </a>
+
+        </div>
+
+
+    </div>
+
+
+</div>
